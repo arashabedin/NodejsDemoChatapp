@@ -17,6 +17,6 @@ io.emit('stream disconnect');
 });
 });
 
-http.listen(8080, function(){
-console.log('listening on *:3000');
-});
+// http.listen(8080, function(){
+// console.log('listening on *:3000');
+// });
