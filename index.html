@@ -11,10 +11,13 @@
       #messages { list-style-type: none; margin: 0; padding: 0; }
       #messages li { padding: 5px 10px; }
       #messages li:nth-child(odd) { background: #eee; }
+      #isSomeoneWriting{position: fixed; bottom: 56px; left: 12px; font-size: 18px;}
     </style>
   </head>
   <body>
     <ul id="messages"></ul>
+    <p id ="isSomeoneWriting"></p>
+
     <form action="">
       <input id="m" autocomplete="off" /><button>Send</button>
     </form>
@@ -32,6 +35,21 @@
                 $('#m').val('');
                 return false;
             });
+
+            $(document).on('keyup', '#m', function(){
+              if( $("#m").val().length!==0)  {
+                socket.emit("someonewriting")
+            } else{
+                socket.emit("stoppedwriting")
+            }
+          });
+     
+          socket.on("someonewriting",function(){
+            $("#isSomeoneWriting").html('Someone is writing...');
+          });
+          socket.on("stoppedwriting",function(){
+            $("#isSomeoneWriting").html('');
+          })
             socket.on('stream chat', function(msg){
                 $('#messages').append($('<li>').text(msg)); 
             });
